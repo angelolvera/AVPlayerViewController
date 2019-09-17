@@ -65,21 +65,17 @@ class ViewController: UIViewController {
             return  // no need for the fix in iOS 13
         }
         
-        if baseView.subviews.isEmpty {
+        func toggleView(_ baseView: UIView, isHidden: Bool) {
             let className = String(describing: type(of: baseView))
             if className == "AVPlaybackControlsView" {
                 baseView.isHidden = isHidden
-            }
-            return
-        }
-        for view in baseView.subviews {
-            togglePlaybackControlsView(view, isHidden: isHidden)
-            let className = String(describing: type(of: view))
-            if className == "AVPlaybackControlsView" {
-                view.isHidden = isHidden
                 return
             }
+            for view in baseView.subviews {
+                toggleView(view, isHidden: isHidden)
+            }
         }
+        toggleView(baseView, isHidden: isHidden)
     }
 
     
